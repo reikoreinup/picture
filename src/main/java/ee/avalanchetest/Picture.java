@@ -1,6 +1,6 @@
-package ee.avalancheTest;
+package ee.avalanchetest;
 
-import ee.avalancheTest.exceptions.InvalidRequestException;
+import ee.avalanchetest.exceptions.InvalidRequestException;
 
 import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
@@ -23,11 +23,6 @@ public class Picture {
     private float qualityCounter = 0.99f;
 
 
-    public Picture() {
-
-    }
-
-
     public String resize(String base64String, int endHeight) throws InvalidRequestException, IOException {
         validateNegative(endHeight);
         BufferedImage bfff = base64ToBufferedImage(base64String);
@@ -38,13 +33,13 @@ public class Picture {
         Image newImage = bfff.getScaledInstance(newWidth, endHeight, Image.SCALE_DEFAULT);
 
         BufferedImage blankBufferedImage = new BufferedImage(newWidth, endHeight, BufferedImage.TYPE_INT_RGB);
-        Graphics2D bGr = blankBufferedImage.createGraphics(); // draw on blank image
-        bGr.drawImage(newImage, 0, 0, null);
+        Graphics2D bGr = blankBufferedImage.createGraphics();
+        bGr.drawImage(newImage, 0, 0, null); // draw on blank image
         bGr.dispose();
         return bufferedImageToBase64(blankBufferedImage);
     }
 
-// TODO: Compressing works badly, but does something.
+
     public String compress(String base64String, float bytes) throws InvalidRequestException, IOException {
         BufferedImage bufferedImage = base64ToBufferedImage(base64String);
         float jpgOriginalSize = (float) (base64String.length() * BITS_IN_ONE_DIGIT_OF_BASE64 / BASE64_QUANTIFIER);
@@ -71,6 +66,7 @@ public class Picture {
             jpgWriter.setOutput(outputStream);
             jpgWriter.write(null, new IIOImage(bufferedImage, null, null), jpgWriteParam);
             jpgWriter.dispose();
+            outputStream.close();
 
             byte[] jpegData = compressed.toByteArray();
 
@@ -78,7 +74,7 @@ public class Picture {
             bufferedImage = ImageIO.read(bais);
 
             jpgOriginalSize = (float) (bufferedImageToBase64(bufferedImage).length() * BITS_IN_ONE_DIGIT_OF_BASE64 / BASE64_QUANTIFIER);
-            System.out.println(jpgOriginalSize);
+
         }
         return bufferedImageToBase64(bufferedImage);
     }
@@ -99,8 +95,9 @@ public class Picture {
     }
 
 
-    private BufferedImage base64ToBufferedImage(String b64) throws IOException {
+    public BufferedImage base64ToBufferedImage(String b64) throws IOException {
         try {
+            // Base64 might have header that is split by a comma.
             byte[] b64ImageBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(b64.split(",")[1]);
             return ImageIO.read(new ByteArrayInputStream(b64ImageBytes));
         } catch (ArrayIndexOutOfBoundsException e) {
@@ -110,7 +107,7 @@ public class Picture {
 
     }
 
-    private String bufferedImageToBase64(BufferedImage image) throws IOException {
+    public String bufferedImageToBase64(BufferedImage image) throws IOException {
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         ImageIO.write(image, "jpg", os);
         return Base64.getEncoder().encodeToString(os.toByteArray());

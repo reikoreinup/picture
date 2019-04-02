@@ -1,4 +1,4 @@
-package ee.avalancheTest.exceptions;
+package ee.avalanchetest.exceptions;
 
 public class InvalidFileException extends Exception {
 

@@ -1,4 +1,8 @@
-group 'ee.avalancheTest'
+plugins {
+    id "org.sonarqube" version "2.7"
+}
+
+group 'ee.avalanchetest'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
@@ -12,3 +16,4 @@ repositories {
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
+

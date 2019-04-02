@@ -1,7 +1,7 @@
-package ee.avalancheTest;
+package ee.avalanchetest;
 
-import ee.avalancheTest.exceptions.InvalidFileException;
-import ee.avalancheTest.exceptions.InvalidRequestException;
+import ee.avalanchetest.exceptions.InvalidFileException;
+import ee.avalanchetest.exceptions.InvalidRequestException;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
