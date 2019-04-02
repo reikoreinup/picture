@@ -1,6 +1,5 @@
 package ee.avalanchetest;
 
-import ee.avalanchetest.exceptions.InvalidFileException;
 import ee.avalanchetest.exceptions.InvalidRequestException;
 
 import java.io.IOException;
@@ -9,7 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class Main {
-    public static void main(String[] args) throws IOException, InvalidFileException, InvalidRequestException {
+    public static void main(String[] args) throws IOException, InvalidRequestException {
         String b64 = readFile("C:\\Users\\Reiko\\Desktop\\saast\\projektialged\\niisamaprog\\picture\\src\\main\\resources\\base64img.txt", Charset.defaultCharset());
         Picture picture = new Picture();
         String resize = picture.compress(b64, 20000);
