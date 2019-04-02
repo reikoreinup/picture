@@ -9,6 +9,17 @@ apply plugin: 'java'
 
 sourceCompatibility = 1.8
 
+task fatJar(type: Jar) {
+    manifest {
+        attributes 'Implementation-Title': 'PictureTool Jar',
+                'Implementation-Version': version,
+                'Main-Class': 'ee.avalanchetest.PictureTool'
+    }
+    baseName = project.name
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
 repositories {
     mavenCentral()
 }
