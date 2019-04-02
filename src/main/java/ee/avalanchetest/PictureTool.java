@@ -14,7 +14,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Base64;
 
-public class Picture {
+public class PictureTool {
 
     public static final int BITS_IN_ONE_DIGIT_OF_BASE64 = 6; // each digit of base64 has 6 bits
     public static final double BASE64_QUANTIFIER = 1.37; //when encoded to base 64, the file is approximately 1.37 times larger
