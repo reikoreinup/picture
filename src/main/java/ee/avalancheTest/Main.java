@@ -1,17 +1,26 @@
 package ee.avalancheTest;
 
 import ee.avalancheTest.exceptions.InvalidFileException;
+import ee.avalancheTest.exceptions.InvalidRequestException;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class Main {
-    public static void main(String[] args) throws IOException, InvalidFileException {
-        Picture picture = new Picture("1.jpg");
-        BufferedImage resize = picture.compress(30000);
-        ImageIO.write(resize, "jpg", new File("newImg.jpg"));
+    public static void main(String[] args) throws IOException, InvalidFileException, InvalidRequestException {
+        String b64 = readFile("C:\\Users\\Reiko\\Desktop\\saast\\projektialged\\niisamaprog\\picture\\src\\main\\resources\\base64img.txt", Charset.defaultCharset());
+        Picture picture = new Picture();
+        String resize = picture.compress(b64, 20000);
+        System.out.println(resize);
 
+    }
+
+    static String readFile(String path, Charset encoding)
+            throws IOException
+    {
+        byte[] encoded = Files.readAllBytes(Paths.get(path));
+        return new String(encoded, encoding);
     }
 }
